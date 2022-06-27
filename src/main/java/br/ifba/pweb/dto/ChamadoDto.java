@@ -9,6 +9,15 @@ public class ChamadoDto {
     private Status status;
     private String complemento;
     private Long cliente_id;
+    private String nome_cliente;
+
+    public String getNome_cliente() {
+        return nome_cliente;
+    }
+
+    public void setNome_cliente(String nome_cliente) {
+        this.nome_cliente = nome_cliente;
+    }
 
     public ChamadoDto() {}
 

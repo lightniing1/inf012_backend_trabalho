@@ -65,6 +65,7 @@ public class ChamadoService {
         chamadoDto.setAssunto(chamado.getAssunto());
         chamadoDto.setStatus(chamado.getStatus());
         chamadoDto.setComplemento(chamado.getComplemento());
+        chamadoDto.setNome_cliente(chamado.getCliente().getNome());
 
         return chamadoDto;
     }

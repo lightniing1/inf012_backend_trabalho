@@ -3,11 +3,9 @@ package br.ifba.pweb.controller;
 import br.ifba.pweb.dto.ClienteDto;
 import br.ifba.pweb.model.Cliente;
 import br.ifba.pweb.model.Usuario;
-import br.ifba.pweb.repository.ClienteRepository;
 import br.ifba.pweb.repository.UsuarioRepository;
 import br.ifba.pweb.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +32,12 @@ public class ClienteController {
     public ResponseEntity<List<ClienteDto>> listarTodosClientesDoUsuario(@PathVariable String uid){
         Usuario usuario = usuarioRepository.findByUID(uid);
         return clienteService.getAllClientesDoUsuario(usuario);
+    }
+
+    @GetMapping("{uid}/{id}")
+    public ResponseEntity<ClienteDto> listaClienteEspecifico(@PathVariable String uid, @PathVariable Long id) {
+        Usuario usuario = usuarioRepository.findByUID(uid);
+        return clienteService.getClienteDoUsuario(usuario, id);
     }
 
     @DeleteMapping("{uid}/{id}")

@@ -57,11 +57,11 @@ public class ClienteDto {
         this.endereco = endereco;
     }
 
-    public String getData_cadastro() {
+    public String getDataCadastro() {
         return data_cadastro;
     }
 
-    public void setData_cadastro(String data_cadastro) {
+    public void setDataCadastro(String data_cadastro) {
         this.data_cadastro = data_cadastro;
     }
 
