@@ -1,7 +1,6 @@
 package br.ifba.pweb.service;
 
 import br.ifba.pweb.dto.ChamadoDto;
-import br.ifba.pweb.dto.ClienteDto;
 import br.ifba.pweb.model.Chamado;
 import br.ifba.pweb.model.Cliente;
 import br.ifba.pweb.model.Usuario;
@@ -56,6 +55,27 @@ public class ChamadoService {
 
         return new ResponseEntity<List<ChamadoDto>>(chamados, HttpStatus.OK);
 
+    }
+
+    public ResponseEntity<ChamadoDto> deleteChamadoCliente(Usuario usuario, Long id) {
+        Chamado chamado = chamadoRepository.findById(id).get();
+        if (usuario == null || chamado == null) {
+            chamadoRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    public ResponseEntity<ChamadoDto> updateChamadoDoClienteDeUsuario(Usuario usuario, ChamadoDto chamadoDto) {
+        if (usuario == null || chamadoDto == null) {
+            Chamado chamadoExistente = chamadoRepository.findById(chamadoDto.getId()).get();
+            chamadoExistente.setAssunto(chamadoDto.getAssunto());
+            chamadoExistente.setComplemento(chamadoDto.getComplemento());
+            chamadoExistente.setStatus(chamadoDto.getStatus());
+            chamadoRepository.save(chamadoExistente);
+            return new ResponseEntity<ChamadoDto>(convertEntitytoDto(chamadoExistente), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     private ChamadoDto convertEntitytoDto(Chamado chamado) {

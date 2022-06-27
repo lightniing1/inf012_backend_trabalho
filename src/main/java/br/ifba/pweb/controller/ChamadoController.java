@@ -9,6 +9,7 @@ import br.ifba.pweb.repository.UsuarioRepository;
 import br.ifba.pweb.service.ChamadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,9 +48,22 @@ public class ChamadoController {
         return chamadoService.addChamadoCliente(cliente, chamado);
     }
 
-    //@PutMapping
+    @PutMapping("{uid}/{id}")
+    @Transactional
+    public ResponseEntity<ChamadoDto> atualizadoChamadoCliente(@PathVariable String uid,
+                                                               @RequestBody ChamadoDto chamado,
+                                                               @PathVariable Long id) {
+        //Cliente cliente = clienteRepository.
+        Usuario usuario = usuarioRepository.findByUID(uid);
+        return chamadoService.updateChamadoDoClienteDeUsuario(usuario, chamado);
+    }
 
-    //@DeleteMapping
+    @DeleteMapping("{uid}/{id}")
+    @Transactional
+    public ResponseEntity<ChamadoDto> excluiChamadoCliente(@PathVariable String uid, @PathVariable Long id) {
+        Usuario usuario = usuarioRepository.findByUID(uid);
+        return chamadoService.deleteChamadoCliente(usuario, id);
+    }
 
 
 }
