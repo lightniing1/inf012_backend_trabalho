@@ -12,5 +12,7 @@ import java.util.List;
 public interface ChamadoRepository extends JpaRepository <Chamado, Long> {
 
     List<Chamado> findAllByCliente(Cliente cliente);
+    Chamado findByClienteAndId(Cliente cliente, Long id);
+    void deleteByClienteAndId(Cliente cliente, Long id);
 
 }

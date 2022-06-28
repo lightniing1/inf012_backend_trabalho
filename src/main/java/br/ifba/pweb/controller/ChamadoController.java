@@ -38,6 +38,15 @@ public class ChamadoController {
         return chamadoService.getAllChamadosDoClienteDeUsuario(usuario);
     }
 
+    @GetMapping("{uid}/{cliente_id}/{chamado_id}")
+    public ResponseEntity<ChamadoDto> listaChamadoEspecifico(@PathVariable String uid,
+                                                             @PathVariable Long cliente_id,
+                                                             @PathVariable Long chamado_id) {
+        Usuario usuario = usuarioRepository.findByUID(uid);
+        Cliente cliente = clienteRepository.findByUsuarioAndId(usuario, cliente_id);
+        return chamadoService.getChamadoEspecificoDoCliente(cliente, chamado_id);
+    }
+
     @PostMapping("{uid}/{id}")
     public ResponseEntity<ChamadoDto> cadastraChamadoDoCliente(@PathVariable String uid,
                                                                @RequestBody Chamado chamado,
@@ -48,21 +57,26 @@ public class ChamadoController {
         return chamadoService.addChamadoCliente(cliente, chamado);
     }
 
-    @PutMapping("{uid}/{id}")
+    @PutMapping("{uid}/{cliente_id}/{chamado_id}")
     @Transactional
     public ResponseEntity<ChamadoDto> atualizadoChamadoCliente(@PathVariable String uid,
                                                                @RequestBody ChamadoDto chamado,
-                                                               @PathVariable Long id) {
+                                                               @PathVariable Long cliente_id,
+                                                               @PathVariable Long chamado_id) {
         //Cliente cliente = clienteRepository.
         Usuario usuario = usuarioRepository.findByUID(uid);
-        return chamadoService.updateChamadoDoClienteDeUsuario(usuario, chamado);
+        Cliente cliente = clienteRepository.findByUsuarioAndId(usuario, cliente_id);
+        return chamadoService.updateChamadoDoClienteDeUsuario(cliente, chamado);
     }
 
-    @DeleteMapping("{uid}/{id}")
+    @DeleteMapping("{uid}/{cliente_id}/{chamado_id}")
     @Transactional
-    public ResponseEntity<ChamadoDto> excluiChamadoCliente(@PathVariable String uid, @PathVariable Long id) {
+    public ResponseEntity<ChamadoDto> excluiChamadoCliente(@PathVariable String uid,
+                                                           @PathVariable Long cliente_id,
+                                                           @PathVariable Long chamado_id) {
         Usuario usuario = usuarioRepository.findByUID(uid);
-        return chamadoService.deleteChamadoCliente(usuario, id);
+        Cliente cliente = clienteRepository.findByUsuarioAndId(usuario, cliente_id);
+        return chamadoService.deleteChamadoCliente(cliente, chamado_id);
     }
 
 

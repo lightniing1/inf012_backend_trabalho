@@ -41,6 +41,14 @@ public class ChamadoService {
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
 
+    public ResponseEntity<ChamadoDto> getChamadoEspecificoDoCliente(Cliente cliente, Long chamadoId) {
+        Chamado chamadoExistente = chamadoRepository.findByClienteAndId(cliente, chamadoId);
+        if (chamadoExistente != null) {
+            return new ResponseEntity<ChamadoDto>(convertEntitytoDto(chamadoExistente), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 
     public ResponseEntity<List<ChamadoDto>> getAllChamadosDoClienteDeUsuario(Usuario usuario) {
         //Acha todos os cliente do usuario
@@ -57,23 +65,23 @@ public class ChamadoService {
 
     }
 
-    public ResponseEntity<ChamadoDto> deleteChamadoCliente(Usuario usuario, Long id) {
-        Chamado chamado = chamadoRepository.findById(id).get();
-        if (usuario == null || chamado == null) {
-            chamadoRepository.deleteById(id);
+    public ResponseEntity<ChamadoDto> deleteChamadoCliente(Cliente cliente, Long id) {
+        Chamado chamado = chamadoRepository.findByClienteAndId(cliente, id);
+        if (chamado != null) {
+            chamadoRepository.deleteByClienteAndId(cliente, id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<ChamadoDto> updateChamadoDoClienteDeUsuario(Usuario usuario, ChamadoDto chamadoDto) {
-        if (usuario == null || chamadoDto == null) {
-            Chamado chamadoExistente = chamadoRepository.findById(chamadoDto.getId()).get();
-            chamadoExistente.setAssunto(chamadoDto.getAssunto());
-            chamadoExistente.setComplemento(chamadoDto.getComplemento());
-            chamadoExistente.setStatus(chamadoDto.getStatus());
-            chamadoRepository.save(chamadoExistente);
-            return new ResponseEntity<ChamadoDto>(convertEntitytoDto(chamadoExistente), HttpStatus.OK);
+    public ResponseEntity<ChamadoDto> updateChamadoDoClienteDeUsuario(Cliente cliente, ChamadoDto chamadoDto) {
+        Chamado chamado = chamadoRepository.findByClienteAndId(cliente, chamadoDto.getId());
+        if (cliente != null || chamado != null) {
+            chamado.setAssunto(chamadoDto.getAssunto());
+            chamado.setComplemento(chamadoDto.getComplemento());
+            chamado.setStatus(chamadoDto.getStatus());
+            chamadoRepository.save(chamado);
+            return new ResponseEntity<ChamadoDto>(convertEntitytoDto(chamado), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
