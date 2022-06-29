@@ -3,6 +3,7 @@ package br.ifba.pweb.controller;
 import br.ifba.pweb.model.Usuario;
 import br.ifba.pweb.repository.UsuarioRepository;
 import br.ifba.pweb.service.FileService;
+import br.ifba.pweb.service.UsuarioService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,8 @@ public class UsuarioController {
     UsuarioRepository usuarioRepository;
     @Autowired
     FileService fileService;
+    @Autowired
+    UsuarioService usuarioService;
 
     @GetMapping
     public ResponseEntity<List<Usuario>> listarTodosUsuarios(){
@@ -75,12 +78,17 @@ public class UsuarioController {
 
         return fileService.salvaArquivo(uid, multipartFile, nomeArquivo);
     }
-    /*
+
     @GetMapping("/profile-picture/{uid}")
     public ResponseEntity exibeProfilePicture (@PathVariable String uid) {
         Usuario usuarioExistente = usuarioRepository.findByUID(uid);
-        return
+        String url = null;
+
+        if (usuarioExistente.getFoto() != null) {
+            return new ResponseEntity<>(usuarioService.getUsuario(usuarioExistente), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
-    */
+
 }
