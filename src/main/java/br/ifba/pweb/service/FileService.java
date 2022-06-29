@@ -17,7 +17,7 @@ public class FileService {
 
     public ResponseEntity salvaArquivo(String uid, MultipartFile multipartFile, String nomeArquivo) throws IOException {
 
-        Path caminhoDiretorio = Paths.get("/fotos/" + uid);
+        Path caminhoDiretorio = Paths.get("/fotos/"); //Windows
         if (!Files.isDirectory(caminhoDiretorio)) {
             Files.createDirectories(caminhoDiretorio);
         }

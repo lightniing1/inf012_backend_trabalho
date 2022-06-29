@@ -68,8 +68,9 @@ public class UsuarioController {
         }
 
         Usuario usuarioExistente = usuarioRepository.findByUID(uid);
-        String nomeArquivo = "profile-pic";
-        usuarioExistente.setFoto("foto-"+uid);
+        String extensaoArquivo = StringUtils.getFilenameExtension(multipartFile.getOriginalFilename());
+        String nomeArquivo = "profile-pic-"+uid+'.'+extensaoArquivo;
+        usuarioExistente.setFoto(nomeArquivo);
         usuarioRepository.save(usuarioExistente);
 
         return fileService.salvaArquivo(uid, multipartFile, nomeArquivo);
