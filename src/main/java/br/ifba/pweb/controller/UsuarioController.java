@@ -2,13 +2,17 @@ package br.ifba.pweb.controller;
 
 import br.ifba.pweb.model.Usuario;
 import br.ifba.pweb.repository.UsuarioRepository;
+import br.ifba.pweb.service.FileService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -18,6 +22,8 @@ public class UsuarioController {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    FileService fileService;
 
     @GetMapping
     public ResponseEntity<List<Usuario>> listarTodosUsuarios(){
@@ -53,4 +59,27 @@ public class UsuarioController {
         return new ResponseEntity<>(usuarioRepository.save(usuarioExistente), HttpStatus.OK);
     }
 
+    @PostMapping("/profile-picture/{uid}")
+    public ResponseEntity uploadProfilePicture (@PathVariable String uid, @RequestParam("file") MultipartFile multipartFile) throws IOException {
+
+        //Mudar limite de upload da foto depois
+        if (multipartFile.getSize() > 1048576) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Usuario usuarioExistente = usuarioRepository.findByUID(uid);
+        String nomeArquivo = "profile-pic";
+        usuarioExistente.setFoto("foto-"+uid);
+        usuarioRepository.save(usuarioExistente);
+
+        return fileService.salvaArquivo(uid, multipartFile, nomeArquivo);
+    }
+    /*
+    @GetMapping("/profile-picture/{uid}")
+    public ResponseEntity exibeProfilePicture (@PathVariable String uid) {
+        Usuario usuarioExistente = usuarioRepository.findByUID(uid);
+        return
+
+    }
+    */
 }

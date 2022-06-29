@@ -10,10 +10,17 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
     private String UID;
-
     private String name;
+    private String foto;
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 
     public Long getId() {
         return id;
@@ -38,4 +45,6 @@ public class Usuario {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }
