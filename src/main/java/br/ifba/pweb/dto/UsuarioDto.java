@@ -6,6 +6,15 @@ public class UsuarioDto {
     private String nome;
     private String uid;
     private String profile_pic;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public UsuarioDto() {}
 

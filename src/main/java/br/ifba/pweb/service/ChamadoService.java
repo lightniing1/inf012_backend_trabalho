@@ -28,6 +28,7 @@ public class ChamadoService {
     public ResponseEntity<ChamadoDto> addChamadoCliente(Cliente cliente, Chamado chamado) {
         if (cliente != null) {
             chamado.setCliente(cliente);
+            chamado.setDataCadastro(java.time.LocalDate.now().toString());
             chamadoRepository.save(chamado);
             return new ResponseEntity<ChamadoDto>(convertEntitytoDto(chamado), HttpStatus.CREATED);
         }
@@ -94,6 +95,7 @@ public class ChamadoService {
         chamadoDto.setStatus(chamado.getStatus());
         chamadoDto.setComplemento(chamado.getComplemento());
         chamadoDto.setNome_cliente(chamado.getCliente().getNome());
+        chamadoDto.setCadastro(chamado.getDataCadastro());
 
         return chamadoDto;
     }

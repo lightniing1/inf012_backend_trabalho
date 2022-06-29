@@ -17,9 +17,15 @@ public class Chamado {
     private Status status;
     private String Complemento;
 
+    private String dataCadastro;
 
+    public String getDataCadastro() {
+        return dataCadastro;
+    }
 
-
+    public void setDataCadastro(String dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
 
     public Long getId() {
         return id;

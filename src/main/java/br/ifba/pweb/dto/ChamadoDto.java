@@ -10,6 +10,15 @@ public class ChamadoDto {
     private String complemento;
     private Long cliente_id;
     private String nome_cliente;
+    private String data_cadastro;
+
+    public String getCadastro() {
+        return data_cadastro;
+    }
+
+    public void setCadastro(String cadastro) {
+        this.data_cadastro = cadastro;
+    }
 
     public String getNome_cliente() {
         return nome_cliente;
